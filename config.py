@@ -1,6 +1,6 @@
 message_template = """
 Hey, {name}.
-Here's my latest video upload:
+Here's my latest video:
 
 """
 

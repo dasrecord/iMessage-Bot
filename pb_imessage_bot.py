@@ -38,6 +38,7 @@ def ping(msg):
         )
     except requests.RequestException:
         pass
+    print("________________________________")
     print(msg)
 
 def text_blast(name, number, message):
