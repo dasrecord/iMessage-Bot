@@ -47,9 +47,9 @@ def text_blast(name, number, message):
         exit()
     # if not in safe_mde, the message will be sent
     if config.safe_mode == False:
-        pyautogui.click(config.new_message)
+        pyautogui.click(config.new_message_box)
         short_wait()
-        pyautogui.click(config.to)
+        pyautogui.click(config.recipient_box)
         short_wait()
         pyautogui.write(str(number))
         short_wait()
