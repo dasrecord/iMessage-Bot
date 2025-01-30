@@ -42,7 +42,7 @@ def ping(msg):
     print(msg)
 
 def text_blast(name, number, message):
-    # if mouse is moved to the top right corner, the program will stop
+    # if mouse is moved to the top left corner, the program will stop
     if pyautogui.position() == (0,0):
         ping("iMessage Bot interrupted")
         exit()
