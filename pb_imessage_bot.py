@@ -68,7 +68,10 @@ def text_blast(name, number, message):
         return False
 
 def main(contact_list):
+    
     with open(contact_list) as f:
+        # skip the first line
+        f.readline()
         lines = f.readlines()
         for line in lines:
             name = line.split(',')[0].split(' ')[0]
