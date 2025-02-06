@@ -58,7 +58,7 @@ def text_blast(name, number, message):
         short_wait()
         pyautogui.press('enter')
         short_wait()
-        pyautogui.write(message,0.01)
+        pyautogui.typewrite(message)
         long_wait()
         pyautogui.press('enter')
         short_wait()
