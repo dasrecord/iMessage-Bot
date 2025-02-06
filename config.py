@@ -17,6 +17,6 @@ Here's my latest video:
 safe_mode = True
 
 imessage_app = (180,868)
-new_message_box = (473,48)
-recipient_box = (546,51)
-message_box = (576,815)
+new_message_box = (314,50)
+recipient_box = (395,51)
+message_box = (450,800)
