@@ -16,7 +16,6 @@ Here's my latest video:
 
 safe_mode = True
 
-messenger_app = (,)
-new_message_box = (,)
-recipient_box = (,)
-message_box = (,)
+new_message_box = (110,72)
+recipient_box = (200,90)
+message_box = (220,822)
