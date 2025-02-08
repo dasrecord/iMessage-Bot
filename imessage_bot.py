@@ -1,7 +1,8 @@
 import pyautogui
 import requests
 import time
-import config
+import imessage_config
+import messenger_config
 import datetime
 
 def short_wait():
@@ -14,7 +15,8 @@ def get_contact_list(mode):
     contact_lists = {
         '0': 'contact_lists/testing.csv',
         '1': 'contact_lists/main.csv',
-        '2': 'contact_lists/vip.csv'
+        '2': 'contact_lists/vip.csv',
+        '3': 'contact_lists/facebook.csv'
     }
     if mode not in contact_lists:
         print(f"Invalid mode: {mode}. Please select a valid mode.")
@@ -26,8 +28,20 @@ def mode_select():
     Press 0 for TESTING CONTACT LIST
     Press 1 for MAIN CONTACT LIST
     Press 2 for VIP CONTACT LIST
+    Press 3 for FACEBOOK CONTACT LIST
     """)
     return mode
+
+def config_select():
+    config = input("""Would you like to send a message to?
+    Press 0 for iMessage
+    Press 1 for Messenger
+    """)
+    if config == '0':
+        return imessage_config
+    elif config == '1':
+        return messenger_config
+    return config
 
 def ping(msg):
     try:
@@ -46,45 +60,60 @@ def text_blast(name, number, message):
     if pyautogui.position() == (0,0):
         ping("iMessage Bot interrupted")
         exit()
-    # if not in safe_mde, the message will be sent
-    if config.safe_mode == False:
-        pyautogui.click(config.new_message_box)
-        short_wait()
-        pyautogui.click(config.recipient_box)
-        short_wait()
-        pyautogui.write(str(number))
-        short_wait()
-        pyautogui.press('enter')
-        short_wait()
-        pyautogui.press('enter')
-        short_wait()
-        pyautogui.typewrite(message)
-        long_wait()
-        pyautogui.press('enter')
-        short_wait()
-        return True
-    else:
-        print('SAFE MODE: Message not sent to ', name, 'at ', number)
-        return False
-
-def main(contact_list):
     
+    config = config_select()
+
+    if config == imessage_config:
+        # if not in safe_mode, the message will be sent
+        if imessage_config.safe_mode == False:
+            pyautogui.click(imessage_config.new_message_box)
+            short_wait()
+            pyautogui.click(imessage_config.recipient_box)
+            short_wait()
+            pyautogui.write(str(number))
+            short_wait()
+            pyautogui.press('enter')
+            short_wait()
+            pyautogui.press('enter')
+            short_wait()
+            pyautogui.typewrite(message)
+        else:
+            print('SAFE MODE: Message not sent to ', name, 'at ', number)
+            return False
+    elif config == messenger_config:
+        if messenger_config.safe_mode == False:
+            pyautogui.click(messenger_config.new_message_box)
+            short_wait()
+            pyautogui.click(messenger_config.recipient_box)
+            short_wait()
+            pyautogui.write(name)
+            short_wait()
+            pyautogui.press('enter')
+            short_wait()
+            pyautogui.press('enter')
+            short_wait()
+            pyautogui.typewrite(message)
+        else:
+            print('SAFE MODE: Message not sent to ', name)
+            return False
+    return True
+
+def main(contact_list, config):
     with open(contact_list) as f:
         # skip the first line
         f.readline()
         lines = f.readlines()
         for line in lines:
             name = line.split(',')[0].split(' ')[0]
-            number = line.split(',')[1]
+            number = line.split(',')[1] if config == imessage_config else None
             formatted_message = config.message_template.format(name=name)
             if text_blast(name, number, formatted_message):
                 with open('just_sent.csv', 'a') as f:
-                    f.write(name + ',' + number + ',' + str(datetime.datetime.now()) + '\n')
-                print("________________________________")
-                print('Message sent to: ', name, 'at ', number)
+                    f.write(name + ',' + (number if number else 'N/A') + ',' + str(datetime.datetime.now()) + '\n')
 
-if __name__ == '__main__':
-    ping("iMessage Bot started")
-    main(get_contact_list(mode_select()))
-    ping("iMessage Bot finished")
-
+if __name__ == "__main__":
+    mode = mode_select()
+    contact_list = get_contact_list(mode)
+    if contact_list:
+        config = config_select()
+        main(contact_list, config)
