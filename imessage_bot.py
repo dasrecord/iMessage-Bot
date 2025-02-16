@@ -55,14 +55,12 @@ def ping(msg):
     print("________________________________")
     print(msg)
 
-def text_blast(name, number, message):
+def text_blast(name, number, message, config):
     # if mouse is moved to the top left corner, the program will stop
     if pyautogui.position() == (0,0):
         ping("iMessage Bot interrupted")
         exit()
     
-    config = config_select()
-
     if config == imessage_config:
         # if not in safe_mode, the message will be sent
         if imessage_config.safe_mode == False:
@@ -107,7 +105,7 @@ def main(contact_list, config):
             name = line.split(',')[0].split(' ')[0]
             number = line.split(',')[1] if config == imessage_config else None
             formatted_message = config.message_template.format(name=name)
-            if text_blast(name, number, formatted_message):
+            if text_blast(name, number, formatted_message, config):
                 with open('just_sent.csv', 'a') as f:
                     f.write(name + ',' + (number if number else 'N/A') + ',' + str(datetime.datetime.now()) + '\n')
 
