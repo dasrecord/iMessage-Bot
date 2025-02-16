@@ -4,6 +4,7 @@ import time
 import imessage_config
 import messenger_config
 import datetime
+import os
 
 def short_wait():
     time.sleep(1)
@@ -97,6 +98,10 @@ def text_blast(name, number, message, config):
     return True
 
 def main(contact_list, config):
+    if not os.path.exists(contact_list):
+        print(f"Error: The file {contact_list} does not exist.")
+        return
+
     with open(contact_list) as f:
         # skip the first line
         f.readline()
