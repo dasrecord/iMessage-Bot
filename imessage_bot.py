@@ -13,11 +13,12 @@ def long_wait():
     time.sleep(3)
 
 def get_contact_list(mode):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     contact_lists = {
-        '0': 'contact_lists/testing.csv',
-        '1': 'contact_lists/main.csv',
-        '2': 'contact_lists/vip.csv',
-        '3': 'contact_lists/facebook.csv'
+        '0': os.path.join(base_dir, 'contact_lists/testing.csv'),
+        '1': os.path.join(base_dir, 'contact_lists/main.csv'),
+        '2': os.path.join(base_dir, 'contact_lists/vip.csv'),
+        '3': os.path.join(base_dir, 'contact_lists/facebook.csv')
     }
     if mode not in contact_lists:
         print(f"Invalid mode: {mode}. Please select a valid mode.")
